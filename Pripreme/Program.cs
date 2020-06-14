@@ -8,6 +8,7 @@ namespace Pripreme
         {
             // Pripreme problem:
             // https://open.kattis.com/problems/pripreme 
+            // I get an error: Time Limit Exceeded !!!!
 
 
             var numOfGroups = EnterNumOfGroups();
@@ -16,11 +17,11 @@ namespace Pripreme
             var maxParameters = MaxArray(groups);
 
             int result = 0;
-            int checkedSum = ArraySumExceptMax(groups, maxParameters[1]);
+            int checkedSum = maxParameters[2] - maxParameters[0];
             if (maxParameters[0] > checkedSum)
                 result = maxParameters[0] * 2;
             else
-                result = maxParameters[0] + checkedSum;
+                result = maxParameters[2];
             Console.WriteLine(result);
         }
 
@@ -37,11 +38,13 @@ namespace Pripreme
 
         private static int[] MaxArray(int[] arr)
         {
-            // result {Max value, Max index}
-            int[] result = new int[2] { int.MinValue, 0 };
+            // result {Max value, Max index, arraySum}
+            int[] result = new int[3] { int.MinValue, 0, 0 };
             for (int i = 0; i < arr.Length; i++)
             {
-                if(result[0] < arr[i])
+                result[2] = result[2] + arr[i];// <-- Sum of array items
+
+                if(result[0] < arr[i]) // max value and index
                 {
                     result[0] = arr[i];
                     result[1] = i;
